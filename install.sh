@@ -205,8 +205,8 @@ if [ "$(docker ps -q -f name=rancher)" ]; then
     echo "Rancher container already exists. Skipping Rancher installation..."
 else
     docker run -d --restart=unless-stopped -p 10003:80 -p 10004:443 --name rancher --privileged rancher/rancher:$RANCHER_VERSION
-    echo -e "${GREEN}Waiting 30 seconds for Rancher to start...${NC}"
-    sleep 30
+    echo -e "${GREEN}Waiting 60 seconds for Rancher to start...${NC}"
+    sleep 60
     RANCHERPW=$(docker logs rancher 2>&1 | grep "Bootstrap Password:" | cut -d ' ' -f6)
 fi
 
@@ -350,54 +350,58 @@ cat <<EOF > INSTALL-LOG.txt
 # Services and Passwords
 
 ## Services
+
 ## If Using custom domain, see below.
-- [Code Server](http://code.$DOMAIN_NAME)
-- [Portainer](http://portainer.$DOMAIN_NAME)
-- [Rancher](http://rancher.$DOMAIN_NAME)
-- [MinIO Console](http://minio.$DOMAIN_NAME)
-- [MinIO API](http://minio-api.$DOMAIN_NAME)
-- [MinIO Console 1](http://minio1.$DOMAIN_NAME)
-- [MinIO API 1](http://minio1-api.$DOMAIN_NAME)
-- [MinIO Console 2](http://minio2.$DOMAIN_NAME)
-- [MinIO API 2](http://minio2-api.$DOMAIN_NAME)
-- [MinIO Console 3](http://minio3.$DOMAIN_NAME)
-- [MinIO API 3](http://minio3-api.$DOMAIN_NAME)
-- [MinIO Console 4](http://minio4.$DOMAIN_NAME)
-- [MinIO API 4](http://minio4-api.$DOMAIN_NAME)
+## Base
+- [Code Server](https://code.$DOMAIN_NAME)
+- [Portainer](https://portainer.$DOMAIN_NAME)
+- [Rancher](https://rancher.$DOMAIN_NAME)
+
+## Lab Specific - These will only be available in certain labs and will be brought online as needed.
+- [MinIO Console](https://minio.$DOMAIN_NAME)
+- [MinIO API](https://minio-api.$DOMAIN_NAME)
+- [MinIO Console 1](https://minio1.$DOMAIN_NAME)
+- [MinIO API 1](https://minio1-api.$DOMAIN_NAME)
+- [MinIO Console 2](https://minio2.$DOMAIN_NAME)
+- [MinIO API 2](https://minio2-api.$DOMAIN_NAME)
+- [MinIO Console 3](https://minio3.$DOMAIN_NAME)
+- [MinIO API 3](https://minio3-api.$DOMAIN_NAME)
+- [MinIO Console 4](https://minio4.$DOMAIN_NAME)
+- [MinIO API 4](https://minio4-api.$DOMAIN_NAME)
 
 ## If using sslip.io, see below.
-- [Code Server](http://code.$HOSTIP.sslip.io)
-- [Portainer](http://portainer.$HOSTIP.sslip.io)
-- [Rancher](http://rancher.$HOSTIP.sslip.io)
-- [MinIO Console](http://minio.$HOSTIP.sslip.io)
-- [MinIO API](http://minio-api.$HOSTIP.sslip.io)
-- [MinIO Console 1](http://minio1.$HOSTIP.sslip.io)
-- [MinIO API 1](http://minio1-api.$HOSTIP.sslip.io)
-- [MinIO Console 2](http://minio2.$HOSTIP.sslip.io)
-- [MinIO API 2](http://minio2-api.$HOSTIP.sslip.io)
-- [MinIO Console 3](http://minio3.$HOSTIP.sslip.io)
-- [MinIO API 3](http://minio3-api.$HOSTIP.sslip.io)
-- [MinIO Console 4](http://minio4.$HOSTIP.sslip.io)
-- [MinIO API 4](http://minio4-api.$HOSTIP.sslip.io)
+## Base
+- [Code Server](https://code.$HOSTIP.sslip.io)
+- [Portainer](https://portainer.$HOSTIP.sslip.io)
+- [Rancher](https://rancher.$HOSTIP.sslip.io)
 
-## Passwords
+## Lab Specific - These will only be available in certain labs and will be brought online as needed.
+- [MinIO Console](https://minio.$HOSTIP.sslip.io)
+- [MinIO API](https://minio-api.$HOSTIP.sslip.io)
+- [MinIO Console 1](https://minio1.$HOSTIP.sslip.io)
+- [MinIO API 1](https://minio1-api.$HOSTIP.sslip.io)
+- [MinIO Console 2](https://minio2.$HOSTIP.sslip.io)
+- [MinIO API 2](https://minio2-api.$HOSTIP.sslip.io)
+- [MinIO Console 3](https://minio3.$HOSTIP.sslip.io)
+- [MinIO API 3](https://minio3-api.$HOSTIP.sslip.io)
+- [MinIO Console 4](https://minio4.$HOSTIP.sslip.io)
+- [MinIO API 4](https://minio4-api.$HOSTIP.sslip.io)
 
-- GLOBAL_PASSWORD: $GLOBAL_PASSWORD
+## Logins
+### Code Server
+- Username: admin
+- Password: $GLOBAL_PASSWORD
 
 ### Rancher
-
 - Username: admin
-- Password: $RANCHERPW
+- Initial Password: $RANCHERPW
 
 ### Portainer
-
 - Username: admin
 - Password: $GLOBAL_PASSWORD
 
-### Code Server
-
-- Username: admin
-- Password: $GLOBAL_PASSWORD
 EOF
 
+echo -e "${GREEN}#################################################${NC}"
 echo -e "${GREEN}Installation Complete. Please see INSTALL-LOG.txt for details.${NC}"
+echo -e "${GREEN}#################################################${NC}"
