@@ -1,0 +1,1 @@
+# MinIO Lab Server Bash Install Script
